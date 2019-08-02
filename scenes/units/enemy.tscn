@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/enemy.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/pixel_maz.tres" type="DynamicFont" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="enemy" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="character" type="Label" parent="."]
+margin_left = -7.76945
+margin_top = -20.3081
+margin_right = 11.2305
+margin_bottom = 66.6919
+custom_fonts/font = ExtResource( 2 )
+text = "A
+"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
