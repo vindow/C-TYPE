@@ -20,5 +20,6 @@ func _on_spawn_timer_timeout():
 	
 	# Generate the random ASCII number to convert into a character for the enemy text
 	var character = PoolByteArray([rng.randi_range(33, 126)]).get_string_from_ascii()
-	enemy_instance.set_char(character)
+	enemy_instance.character = character
+	add_child(enemy_instance)
 	
