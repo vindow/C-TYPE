@@ -2,13 +2,16 @@ extends Area2D
 
 var bullet = preload("res://scenes/units/bullet.tscn")
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
 
 func shoot(enemy):
 	var pos_difference = enemy.get_position() - position
@@ -19,6 +22,7 @@ func shoot(enemy):
 	b_instance.direction = angle
 	b_instance.target_to_kill = enemy
 	get_parent().add_child(b_instance)
+	
 	
 func take_damage():
 	print("ded")

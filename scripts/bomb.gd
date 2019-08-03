@@ -5,9 +5,11 @@ extends Area2D
 func _ready():
 	get_node("AnimationPlayer").play("explosion")
 
+
 func _process(delta):
 	if not get_node("AnimationPlayer").is_playing():
 		queue_free()
+
 
 func _on_bomb_area_entered(area):
 	if area.has_method("kill"):

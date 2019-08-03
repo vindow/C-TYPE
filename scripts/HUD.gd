@@ -5,13 +5,10 @@ onready var combo = get_node("combo")
 onready var wave_title = get_node("CenterContainer/wave_number")
 onready var wave_subtitle = get_node("CenterContainer2/subtext")
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 
 func _on_level_score_changed(score_amount):
