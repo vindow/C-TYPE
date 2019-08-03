@@ -1,0 +1,9 @@
+.DS_Store
+*~
+.import/
+logs/
+favicon.ico
+icon.png
+icon.png.import
+export_presets.cfg
+todo.txt
