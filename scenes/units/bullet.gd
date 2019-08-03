@@ -17,4 +17,5 @@ func _process(delta):
 func _on_bullet_area_entered(area):
 	if area == target_to_kill:
 		area.kill()
+		get_parent().add_score(true)
 		queue_free()

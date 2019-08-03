@@ -21,4 +21,4 @@ func shoot(enemy):
 	get_parent().add_child(b_instance)
 	
 func take_damage():
-	pass
+	print("ded")

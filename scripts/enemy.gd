@@ -14,6 +14,7 @@ func _process(delta):
 	var pos_difference = get_parent().get_node("player").get_position() - position
 	position += velocity * pos_difference.normalized() * delta
 
+# Changes the enemy text to red to indicate they are marked for death
 func mark():
 	get_node("character").add_color_override("font_color", Color("ff5050"))
 	set_z_index(-10)
@@ -23,7 +24,7 @@ func kill():
 	queue_free()
 
 func _on_enemy_area_entered(area):
-	if area.has_method("take_damage"):
-		area.take_damage()
+	if area.has_method("die"):
+		area.die()
 		get_parent().remove_enemy(get_node("."))
 		kill()
