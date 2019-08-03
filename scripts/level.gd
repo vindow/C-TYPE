@@ -10,8 +10,8 @@ func _ready():
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
-		var ascii_check = event.scancode
 		# Convert scancode to ASCII
+		var ascii_check = event.scancode
 		if event.shift:
 			match event.scancode:
 				KEY_1, KEY_3, KEY_4, KEY_5:
@@ -56,7 +56,9 @@ func _input(event):
 		for i in range(0, enemies.size()):
 			if ascii_check == enemies[i].ascii_code:
 				get_node("player").shoot(enemies[i])
+				#var enemy_to_delete = enemies[i]
 				enemies.remove(i)
+				#enemy_to_delete.queue_free()
 				break
 
 
