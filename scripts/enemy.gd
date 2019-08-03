@@ -21,10 +21,10 @@ func mark():
 	
 func kill():
 	#TODO: Play death animation, queue up for deletion
+	get_parent().remove_enemy(get_node("."))
 	queue_free()
 
 func _on_enemy_area_entered(area):
 	if area.has_method("die"):
 		area.die()
-		get_parent().remove_enemy(get_node("."))
 		kill()

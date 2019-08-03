@@ -1,6 +1,6 @@
 extends Area2D
 
-export var velocity = 800.0
+export var velocity = 900.0
 var direction = 0
 var target_to_kill = null
 

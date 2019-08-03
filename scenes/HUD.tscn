@@ -1,7 +1,37 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/code_new_roman.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/code_new_roman_large.tres" type="DynamicFont" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "next_wave"
+length = 3.5
+step = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterContainer/wave_number:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5, 1.5, 2.5, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CenterContainer2/subtext:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5, 1.5, 2.5, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
@@ -28,3 +58,35 @@ custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.403922, 0.8, 0.321569, 1 )
 text = "1x COMBO"
 align = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 1600.0
+margin_bottom = 450.0
+
+[node name="wave_number" type="Label" parent="CenterContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 695.0
+margin_top = 192.0
+margin_right = 905.0
+margin_bottom = 257.0
+custom_fonts/font = ExtResource( 3 )
+text = "Wave 1"
+align = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+margin_top = 450.0
+margin_right = 1600.0
+margin_bottom = 900.0
+
+[node name="subtext" type="Label" parent="CenterContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 553.0
+margin_top = 209.0
+margin_right = 1046.0
+margin_bottom = 240.0
+custom_fonts/font = ExtResource( 2 )
+text = "Numbers and lowercase numbers"
+align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/next_wave = SubResource( 1 )

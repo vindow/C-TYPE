@@ -15,6 +15,7 @@ var bomb_cooldown = 5.0
 
 signal score_changed(score_amount)
 signal combo_changed(combo_amount)
+signal wave_changed(wave_number)
 
 
 func _ready():
@@ -26,13 +27,15 @@ func _process(delta):
 	var num_to_spawn = 9 + wave
 	if wave > 9:
 		difficulty = 2
-		num_to_spawn += wave - 10
+		num_to_spawn += 1
 	elif wave > 4:
 		difficulty = 1
 	if spawn_counter >= num_to_spawn:
 		get_node("spawn_timer").stop()
 		var wave_timer = get_node("wave_timer")
 		if enemies.size() == 0 and wave_timer.is_stopped():
+			wave += 1
+			emit_signal("wave_changed", wave)
 			wave_timer.start()
 		
 
@@ -183,7 +186,6 @@ func _on_spawn_timer_timeout():
 
 # Countdown timer for the next wave
 func _on_wave_timer_timeout():
-	wave += 1
 	spawn_counter = 0
 	get_node("spawn_timer").start()
 	
