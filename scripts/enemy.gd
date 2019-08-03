@@ -1,13 +1,29 @@
 extends Area2D
 
+export var velocity = 50.0
 var ascii_code = 65
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var character = PoolByteArray([ascii_code]).get_string_from_ascii()
 	get_node("character").set_text(character)
-	pass # Replace with function body.
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	var pos_difference = get_parent().get_node("player").get_position() - position
+	position += velocity * pos_difference.normalized() * delta
+
+func mark():
+	get_node("character").add_color_override("font_color", Color("ff5050"))
+	set_z_index(-10)
+	
+func kill():
+	#TODO: Play death animation, queue up for deletion
+	queue_free()
+
+func _on_enemy_area_entered(area):
+	if area.has_method("take_damage"):
+		area.take_damage()
+		get_parent().remove_enemy(get_node("."))
+		kill()

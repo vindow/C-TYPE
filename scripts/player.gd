@@ -1,9 +1,6 @@
 extends Area2D
 
 var bullet = preload("res://scenes/units/bullet.tscn")
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,5 +17,8 @@ func shoot(enemy):
 	var b_instance = bullet.instance()
 	b_instance.set_position(get_node("bullet_spawn").get_global_position())
 	b_instance.direction = angle
-	print(b_instance.position)
+	b_instance.target_to_kill = enemy
 	get_parent().add_child(b_instance)
+	
+func take_damage():
+	pass
