@@ -22,7 +22,10 @@ func shoot(enemy):
 	b_instance.direction = angle
 	b_instance.target_to_kill = enemy
 	get_parent().add_child(b_instance)
+	get_node("shoot").play()
 	
 	
-func take_damage():
+func die():
+	#TODO: play death animation and sound
 	print("ded")
+	get_parent().game_over()

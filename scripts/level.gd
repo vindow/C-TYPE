@@ -16,6 +16,7 @@ var bomb_cooldown = 5.0
 signal score_changed(score_amount)
 signal combo_changed(combo_amount)
 signal wave_changed(wave_number)
+signal bomb_changed(bomb_amount)
 
 
 func _ready():
@@ -159,6 +160,7 @@ func use_bomb():
 		add_child(bomb_instance)
 		bomb_count -= 1
 		bomb_cooldown = 5.0
+		emit_signal("bomb_changed", bomb_count)
 
 func add_score(add_combo):
 	if add_combo:
@@ -178,6 +180,9 @@ func remove_enemy(enemy):
 			enemies.remove(i)
 			break
 
+func game_over():
+	get_node("/root/global").final_score = score
+	get_tree().change_scene("res://scenes/UI/game_over.tscn")
 
 # Countdown timer for the next enemy to spawn (staggered spawning)
 func _on_spawn_timer_timeout():

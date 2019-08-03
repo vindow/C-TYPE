@@ -33,3 +33,6 @@ func _on_level_wave_changed(wave_number):
 			subtitle += ", symbols now spawn"
 		wave_subtitle.text = subtitle
 	get_node("AnimationPlayer").play("next_wave")
+
+func _on_level_bomb_changed(bomb_amount):
+	get_node("VBoxContainer/bomb_count").text = "BOMB: " + String(bomb_amount) + "x"
