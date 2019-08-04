@@ -1,11 +1,20 @@
 extends Area2D
 
 var bullet = preload("res://scenes/units/bullet.tscn")
+var dying = false;
+var explosion_timers = []
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	for i in [0.02, 0.22, 0.42, 0.72, 1.6]:
+		var explosion_timer = Timer.new()
+		explosion_timer.one_shot = true
+		explosion_timer.connect("timeout", self, "_on_explosion_timer_timeout")
+		add_child(explosion_timer)
+		explosion_timer.set_wait_time(i)
+		explosion_timers.append(explosion_timer)
+		
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,6 +35,14 @@ func shoot(enemy):
 	
 	
 func die():
-	#TODO: play death animation and sound
-	print("ded")
-	get_parent().game_over()
+	if not dying:
+		get_node("AnimationPlayer").play("explode")
+		for timer in explosion_timers:
+			timer.start()
+		dying = true
+		get_parent().game_over()
+		
+		
+	
+func _on_explosion_timer_timeout():
+	get_parent().shake_camera(0.4)

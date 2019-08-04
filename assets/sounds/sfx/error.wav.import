@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/error.wav-675cd229e4c6e6f4deae0497439093bb.sample"
+
+[deps]
+
+source_file="res://assets/sounds/sfx/error.wav"
+dest_files=[ "res://.import/error.wav-675cd229e4c6e6f4deae0497439093bb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

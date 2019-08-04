@@ -19,12 +19,12 @@ func _on_level_combo_changed(combo_amount):
 	combo.text = String(combo_amount) + "x COMBO"
 
 
-func _on_level_wave_changed(wave_number):
+func _on_level_wave_changed(wave_number, increased_spawn_number):
 	wave_title.text = "Wave " + String(wave_number)
 	if wave_number != 1:
 		var subtitle = "+"
 		if wave_number > 9:
-			subtitle += String(2) + " Enemies"
+			subtitle += String(increased_spawn_number) + " Enemies"
 		else:
 			subtitle += String(1) + " Enemy"
 		if wave_number == 5:

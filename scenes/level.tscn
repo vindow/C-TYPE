@@ -1,12 +1,25 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scripts/level.gd" type="Script" id=1]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/units/player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/images/background.png" type="Texture" id=4]
+[ext_resource path="res://scenes/game_over.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/fog.shader" type="Shader" id=4]
+[ext_resource path="res://assets/images/light.png" type="Texture" id=5]
+[ext_resource path="res://scenes/units/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/images/background.png" type="Texture" id=7]
+[ext_resource path="res://assets/sounds/sfx/click.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/sfx/error.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sounds/sfx/big_explode.wav" type="AudioStream" id=10]
+[ext_resource path="res://scripts/camera.gd" type="Script" id=11]
+[ext_resource path="res://assets/sounds/music/music.ogg" type="AudioStream" id=12]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 polygon = PoolVector2Array( 0, 0, 1600, 0, 1600, 25, 0, 25 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 4 )
+shader_param/color = Vector3( 0.1, 0.08, 0.23 )
+shader_param/OCTAVES = 4
 
 [node name="level" type="Node2D"]
 script = ExtResource( 1 )
@@ -17,10 +30,20 @@ layer = 2
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 2 )]
 light_mask = 0
 
+[node name="game_over" parent="CanvasLayer" instance=ExtResource( 3 )]
+visible = false
+
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource( 1 )
 
-[node name="player" parent="." instance=ExtResource( 3 )]
+[node name="fog" type="Sprite" parent="."]
+material = SubResource( 2 )
+position = Vector2( 791.639, 442.457 )
+scale = Vector2( 6, 6 )
+z_index = 1
+texture = ExtResource( 5 )
+
+[node name="player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 800, 450 )
 
 [node name="spawn_timer" type="Timer" parent="."]
@@ -33,13 +56,41 @@ one_shot = true
 [node name="background" type="Sprite" parent="."]
 position = Vector2( 803.379, 468.425 )
 z_index = -1000
-texture = ExtResource( 4 )
+texture = ExtResource( 7 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.737255, 0.737255, 0.737255, 1 )
+color = Color( 0.882353, 0.882353, 0.882353, 1 )
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -7.0
+pitch_scale = 0.3
+
+[node name="error" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -7.0
+
+[node name="bomb" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = 1.0
+
+[node name="game_over_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="camera" type="Camera2D" parent="."]
+offset = Vector2( 800, 450 )
+rotating = true
+current = true
+script = ExtResource( 11 )
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+autoplay = true
 [connection signal="bomb_changed" from="." to="CanvasLayer/HUD" method="_on_level_bomb_changed"]
 [connection signal="combo_changed" from="." to="CanvasLayer/HUD" method="_on_level_combo_changed"]
 [connection signal="score_changed" from="." to="CanvasLayer/HUD" method="_on_level_score_changed"]
 [connection signal="wave_changed" from="." to="CanvasLayer/HUD" method="_on_level_wave_changed"]
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="wave_timer" to="." method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="game_over_timer" to="." method="_on_game_over_timer_timeout"]

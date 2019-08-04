@@ -12,23 +12,25 @@ var score = 0
 var combo = 1
 var bomb_count = 3
 var bomb_cooldown = 5.0
+var num_to_spawn = 9
+var increase_spawn_per_wave = 1
+var enemy_speed = 50.0
+var game_ending = false
 
 signal score_changed(score_amount)
 signal combo_changed(combo_amount)
 signal wave_changed(wave_number)
 signal bomb_changed(bomb_amount)
+signal out_of_bombs()
 
 
 func _ready():
 	rng.randomize()
 	
-	
 func _process(delta):
 	bomb_cooldown -= delta
-	var num_to_spawn = 9 + wave
 	if wave > 9:
 		difficulty = 2
-		num_to_spawn += 1
 	elif wave > 4:
 		difficulty = 1
 	if spawn_counter >= num_to_spawn:
@@ -36,33 +38,42 @@ func _process(delta):
 		var wave_timer = get_node("wave_timer")
 		if enemies.size() == 0 and wave_timer.is_stopped():
 			wave += 1
-			emit_signal("wave_changed", wave)
+			if wave % 5 == 0:
+				if wave > 5:
+					increase_spawn_per_wave += 1
+				if wave > 10:
+					enemy_speed += 25.0
+			num_to_spawn += increase_spawn_per_wave
+			print(num_to_spawn)
+			emit_signal("wave_changed", wave, increase_spawn_per_wave)
 			wave_timer.start()
 		
 
 # Spawn a single enemy in a random valid location
 func spawn_enemy(difficulty, z_index):
-	# Instantiate the enemy and set its position
-	var enemy_instance = enemy.instance()
-	# Pick a random side of the window to spawn
-	var quadrant_to_spawn = rng.randi_range(0, 3)
-	match quadrant_to_spawn:
-		0:
-			enemy_instance.position = Vector2(rng.randi_range(25, 1575), 0)
-		1:
-			enemy_instance.position = Vector2(1625, rng.randi_range(0, 875))
-		2: 
-			enemy_instance.position = Vector2(rng.randi_range(25, 1575), 925)
-		3:
-			enemy_instance.position = Vector2(-25, rng.randi_range(25, 875))
-	
-	# Generate the random ASCII number to convert into a character for the enemy text
-	enemy_instance.ascii_code = generate_ascii(difficulty)
-	enemy_instance.set_z_index(z_index)
-	# Add enemy to array to track end of wave
-	enemies.append(enemy_instance)
-	add_child(enemy_instance)
-	spawn_counter +=1
+	if not game_ending:
+		# Instantiate the enemy and set its position
+		var enemy_instance = enemy.instance()
+		# Pick a random side of the window to spawn
+		var quadrant_to_spawn = rng.randi_range(0, 3)
+		match quadrant_to_spawn:
+			0:
+				enemy_instance.position = Vector2(rng.randi_range(0, 1600), -25)
+			1:
+				enemy_instance.position = Vector2(1650, rng.randi_range(0, 900))
+			2: 
+				enemy_instance.position = Vector2(rng.randi_range(0, 1600), 950)
+			3:
+				enemy_instance.position = Vector2(-50, rng.randi_range(0, 900))
+		
+		# Generate the random ASCII number to convert into a character for the enemy text
+		enemy_instance.ascii_code = generate_ascii(difficulty)
+		enemy_instance.set_z_index(z_index)
+		enemy_instance.set_velocity(enemy_speed)
+		# Add enemy to array to track end of wave
+		enemies.append(enemy_instance)
+		add_child(enemy_instance)
+		spawn_counter +=1
 
 
 # Generate an ASCII number of a valid character for set difficulty
@@ -138,7 +149,7 @@ func _input(event):
 					KEY_BRACELEFT, KEY_BRACERIGHT:
 						ascii_check -= 32
 			# Check if enemy is a valid target for key pressed
-			if (ascii_check < 126):
+			if (ascii_check <= 126):
 				var killed_enemy = false
 				for i in range(0, enemies.size()):
 					# TODO: add penalty for typo
@@ -149,18 +160,34 @@ func _input(event):
 						killed_enemy = true
 						break
 				if not killed_enemy:
+					get_node("click").play()
 					combo = 1
 					emit_signal("combo_changed", combo)
+
+
+# Shake the camera with an intensity between 0 (no shake) and 1 (maximum shake)
+func shake_camera(trauma):
+	get_node("camera").add_trauma(trauma)
+	
+	
+func shake_camera_clamped(trauma):
+	get_node("camera").add_clamped_trauma(trauma)
 
 
 func use_bomb():
 	if bomb_count > 0 and bomb_cooldown <= 0.0:
 		var bomb_instance = bomb.instance()
-		bomb_instance.set_position(Vector2(800, 450))
+		bomb_instance.set_position(Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y / 2))
 		add_child(bomb_instance)
 		bomb_count -= 1
 		bomb_cooldown = 5.0
 		emit_signal("bomb_changed", bomb_count)
+	elif bomb_count > 0 and bomb_cooldown > 0.0:
+		get_node("click").play()
+	elif bomb_count <= 0:
+		get_node("error").play()
+		emit_signal("out_of_bombs")
+		
 
 func add_score(add_combo):
 	if add_combo:
@@ -172,8 +199,6 @@ func add_score(add_combo):
 	emit_signal("score_changed", score)
 	
 
-
-# TODO: Only useful if you're gonna have health!
 func remove_enemy(enemy):
 	for i in range(0, enemies.size()):
 		if enemies[i] == enemy:
@@ -181,8 +206,11 @@ func remove_enemy(enemy):
 			break
 
 func game_over():
-	get_node("/root/global").final_score = score
-	get_tree().change_scene("res://scenes/UI/game_over.tscn")
+	enemies.append(enemy.instance())
+	get_node("game_over_timer").start()
+	for i in range(0, enemies.size()):
+		enemies[i].velocity = 0
+	game_ending = true
 
 # Countdown timer for the next enemy to spawn (staggered spawning)
 func _on_spawn_timer_timeout():
@@ -194,3 +222,7 @@ func _on_wave_timer_timeout():
 	spawn_counter = 0
 	get_node("spawn_timer").start()
 	
+
+func _on_game_over_timer_timeout():
+	get_node("/root/global").final_score = score
+	get_node("CanvasLayer/game_over").display()

@@ -12,6 +12,10 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func display():
+	set_visible(true)
+	get_node("AnimationPlayer").play("game_over")
+
 
 func _on_Button_pressed():
 	get_tree().change_scene("res://scenes/level.tscn")
