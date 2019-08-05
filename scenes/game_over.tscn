@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/game_over.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/code_new_roman.otf" type="DynamicFontData" id=2]
@@ -8,16 +8,19 @@ size = 100
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 53
+size = 64
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 53
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 48
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=4]
-resource_name = "game_over"
-length = 2.4
+[sub_resource type="Animation" id=5]
+length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("VBoxContainer/Label:modulate")
 tracks/0/interp = 1
@@ -31,7 +34,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("VBoxContainer/score:modulate")
+tracks/1/path = NodePath("VBoxContainer/max_wave:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -43,7 +46,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("VBoxContainer/CenterContainer/Button:modulate")
+tracks/2/path = NodePath("VBoxContainer/score:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -54,18 +57,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("VBoxContainer/CenterContainer/Button:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="game_over" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_top = 200
+custom_constants/margin_top = 150
 script = ExtResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_top = 200.0
+margin_top = 150.0
 margin_right = 1600.0
 margin_bottom = 900.0
-custom_constants/separation = 150
+custom_constants/separation = 100
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
@@ -75,29 +90,38 @@ custom_fonts/font = SubResource( 1 )
 text = "GAME OVER"
 align = 1
 
+[node name="max_wave" type="Label" parent="VBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 201.0
+margin_right = 1600.0
+margin_bottom = 266.0
+custom_fonts/font = SubResource( 2 )
+text = "Wave Reached: "
+align = 1
+
 [node name="score" type="Label" parent="VBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 251.0
+margin_top = 366.0
 margin_right = 1600.0
-margin_bottom = 305.0
-custom_fonts/font = SubResource( 2 )
+margin_bottom = 420.0
+custom_fonts/font = SubResource( 3 )
 text = "Score: 000000"
 align = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 455.0
+margin_top = 520.0
 margin_right = 1600.0
-margin_bottom = 510.0
+margin_bottom = 575.0
 
 [node name="Button" type="Button" parent="VBoxContainer/CenterContainer"]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 651.0
 margin_right = 949.0
 margin_bottom = 55.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Play Again?"
 flat = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/game_over = SubResource( 4 )
+anims/game_over = SubResource( 5 )
 [connection signal="pressed" from="VBoxContainer/CenterContainer/Button" to="." method="_on_Button_pressed"]

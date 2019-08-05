@@ -17,11 +17,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if velocity < 50.0:
-		get_node("Sprite/thruster").set_visible(false)
+		get_node("sprite/thruster").set_visible(false)
 	if not dying:
 		var pos_difference = get_parent().get_node("player").get_position() - position
 		position += velocity * pos_difference.normalized() * delta
-		get_node("Sprite").rotation = atan2(pos_difference.y, pos_difference.x) + PI / 2
+		get_node("sprite").rotation = atan2(pos_difference.y, pos_difference.x) + PI / 2
 
 
 # Changes the enemy text to red to indicate they are marked for death

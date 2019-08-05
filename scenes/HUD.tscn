@@ -91,7 +91,7 @@ margin_top = 209.0
 margin_right = 1046.0
 margin_bottom = 240.0
 custom_fonts/font = ExtResource( 2 )
-text = "Numbers and lowercase numbers"
+text = "Numbers and lowercase letters"
 align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

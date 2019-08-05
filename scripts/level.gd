@@ -44,7 +44,6 @@ func _process(delta):
 				if wave > 10:
 					enemy_speed += 25.0
 			num_to_spawn += increase_spawn_per_wave
-			print(num_to_spawn)
 			emit_signal("wave_changed", wave, increase_spawn_per_wave)
 			wave_timer.start()
 		
@@ -101,7 +100,7 @@ func generate_ascii(difficulty):
 
 # Process player keyboard input
 func _input(event):
-	if event is InputEventKey and event.pressed:
+	if event is InputEventKey and event.pressed and not game_ending:
 		# Check for bomb input
 		if event.scancode == KEY_SPACE:
 			use_bomb()
@@ -175,7 +174,7 @@ func shake_camera_clamped(trauma):
 
 
 func use_bomb():
-	if bomb_count > 0 and bomb_cooldown <= 0.0:
+	if bomb_count > 0 and bomb_cooldown <= 0.0 and not game_ending:
 		var bomb_instance = bomb.instance()
 		bomb_instance.set_position(Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y / 2))
 		add_child(bomb_instance)
@@ -224,5 +223,4 @@ func _on_wave_timer_timeout():
 	
 
 func _on_game_over_timer_timeout():
-	get_node("/root/global").final_score = score
-	get_node("CanvasLayer/game_over").display()
+	get_node("CanvasLayer/game_over").display(wave, score)

@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/images/explosion2.png" type="Texture" id=9]
 [ext_resource path="res://assets/sounds/sfx/bullet_impact.wav" type="AudioStream" id=10]
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=1]
 radius = 16.0
 
 [sub_resource type="Animation" id=2]
@@ -40,7 +40,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 0.62, 0.64, 0.66, 0.68, 0.7, 0.72, 0.74, 0.76, 0.78, 0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 0.98, 1, 1.02, 1.04, 1.06, 1.08, 1.1, 1.12, 1.14, 1.16, 1.18, 1.2, 1.22, 1.24, 1.26, 1.28 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 110, 120, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("explosion_light:texture_scale")
@@ -67,7 +67,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Sprite:visible")
+tracks/4/path = NodePath("sprite:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -115,7 +115,7 @@ tracks/7/keys = {
 "values": [ 2.0, 2.0, 2.0, 2.0, 0.01 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "explode1_no_sound"
 length = 2.0
 step = 0.02
@@ -129,7 +129,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 0.62, 0.64, 0.66, 0.68, 0.7, 0.72, 0.74, 0.76, 0.78, 0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 0.98, 1, 1.02, 1.04, 1.06, 1.08, 1.1, 1.12, 1.14, 1.16, 1.18, 1.2, 1.22, 1.24, 1.26, 1.28 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 110, 120, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("explosion_light:texture_scale")
@@ -156,7 +156,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:visible")
+tracks/3/path = NodePath("sprite:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -204,12 +204,11 @@ tracks/6/keys = {
 "values": [ 2.0, 2.0, 2.0, 2.0, 0.01 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "explode2"
+[sub_resource type="Animation" id=4]
 length = 2.0
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:visible")
+tracks/0/path = NodePath("sprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -305,12 +304,12 @@ tracks/7/keys = {
 "values": [ 2.0, 2.0, 0.01 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "explode2_no_sound"
 length = 2.0
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:visible")
+tracks/0/path = NodePath("sprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -394,13 +393,13 @@ tracks/6/keys = {
 "values": [ 2.0, 2.0, 0.01 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "thruster"
 length = 0.9
 loop = true
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite/thruster:scale")
+tracks/0/path = NodePath("sprite/thruster:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -412,7 +411,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.3, 0.25 ), Vector2( 0.25, 0.4 ), Vector2( 0.3, 0.3 ), Vector2( 0.25, 0.4 ), Vector2( 0.3, 0.25 ), Vector2( 0.2, 0.4 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite/thruster:rotation_degrees")
+tracks/1/path = NodePath("sprite/thruster:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -437,21 +436,21 @@ text = "A"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="."]
 scale = Vector2( 0.7, 0.7 )
 z_index = -1
 texture = ExtResource( 3 )
 
-[node name="thruster" type="Sprite" parent="Sprite"]
+[node name="thruster" type="Sprite" parent="sprite"]
 position = Vector2( -1, 31 )
 rotation = 0.0136066
 scale = Vector2( 0.265255, 0.36949 )
 z_index = -2
 texture = ExtResource( 4 )
 
-[node name="ambient_thruster" type="Light2D" parent="Sprite/thruster"]
+[node name="ambient_thruster" type="Light2D" parent="sprite/thruster"]
 rotation = -0.00976841
 scale = Vector2( 5.38541, 3.86667 )
 texture = ExtResource( 5 )
@@ -484,10 +483,10 @@ hframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/explode1 = SubResource( 2 )
-anims/explode1_no_sound = SubResource( 5 )
-anims/explode2 = SubResource( 3 )
-anims/explode2_no_sound = SubResource( 6 )
-anims/thruster = SubResource( 7 )
+anims/explode1_no_sound = SubResource( 3 )
+anims/explode2 = SubResource( 4 )
+anims/explode2_no_sound = SubResource( 5 )
+anims/thruster = SubResource( 6 )
 
 [node name="explosion_light" type="Light2D" parent="."]
 z_index = -1

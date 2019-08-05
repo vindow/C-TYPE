@@ -1,11 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://scenes/units/bullet.gd" type="Script" id=1]
+[ext_resource path="res://scripts/bullet.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/bullet.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/laser_light.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/light.png" type="Texture" id=3]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 8.0
+[sub_resource type="CapsuleShape2D" id=1]
+height = 800.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "bullet_tumble"
@@ -34,15 +34,15 @@ scale = Vector2( 0.1, 0.15 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2( 0, -400 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/bullet_tumble = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
-position = Vector2( 0.277771, 2.01384 )
+position = Vector2( 0.278, -7 )
+scale = Vector2( 0.2, 0.4 )
 texture = ExtResource( 3 )
-texture_scale = 0.5
 color = Color( 0.501961, 0.984314, 0.611765, 1 )
 [connection signal="area_entered" from="." to="." method="_on_bullet_area_entered"]

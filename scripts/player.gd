@@ -23,15 +23,16 @@ func _ready():
 
 
 func shoot(enemy):
-	var pos_difference = enemy.get_position() - position
-	var angle = atan2(pos_difference.y, pos_difference.x)
-	set_rotation(angle + PI / 2)
-	var b_instance = bullet.instance()
-	b_instance.set_position(get_node("bullet_spawn").get_global_position())
-	b_instance.direction = angle
-	b_instance.target_to_kill = enemy
-	get_parent().add_child(b_instance)
-	get_node("shoot").play()
+	if not dying:
+		var pos_difference = enemy.get_position() - position
+		var angle = atan2(pos_difference.y, pos_difference.x)
+		set_rotation(angle + PI / 2)
+		var b_instance = bullet.instance()
+		b_instance.set_position(get_node("bullet_spawn").get_global_position())
+		b_instance.direction = angle
+		b_instance.target_to_kill = enemy
+		get_parent().add_child(b_instance)
+		get_node("shoot").play()
 	
 	
 func die():

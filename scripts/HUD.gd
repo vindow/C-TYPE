@@ -29,8 +29,11 @@ func _on_level_wave_changed(wave_number, increased_spawn_number):
 			subtitle += String(1) + " Enemy"
 		if wave_number == 5:
 			subtitle += ", capital letters now spawn"
-		if wave_number == 10:
+		elif wave_number == 10:
 			subtitle += ", symbols now spawn"
+		elif wave_number > 10 and wave_number % 5 == 0:
+			subtitle += ", enemy speed up"
+		
 		wave_subtitle.text = subtitle
 	get_node("AnimationPlayer").play("next_wave")
 
