@@ -3,6 +3,7 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 var enemy = preload("res://scenes/units/enemy.tscn")
 var bomb = preload("res://scenes/bomb.tscn")
+
 var enemies = []
 var wave = 0
 var difficulty = 0
@@ -29,15 +30,23 @@ func _ready():
 	
 func _process(delta):
 	bomb_cooldown -= delta
+	
+	# Ramp up the difficulty depending on the wave
+	# TODO: Enemy spawn rate should be increased with difficulty (time between enemy spawns in a wave)
 	if wave > 9:
 		difficulty = 2
 	elif wave > 4:
 		difficulty = 1
+	
+	# Check if spawning for the wave is done
 	if spawn_counter >= num_to_spawn:
 		get_node("spawn_timer").stop()
+		
 		var wave_timer = get_node("wave_timer")
+		# Check if the wave is completely destroyed
 		if enemies.size() == 0 and wave_timer.is_stopped():
 			wave += 1
+			# More difficulty scaling depending on wave
 			if wave % 5 == 0:
 				if wave > 5:
 					increase_spawn_per_wave += 1
@@ -151,14 +160,14 @@ func _input(event):
 			if (ascii_check <= 126):
 				var killed_enemy = false
 				for i in range(0, enemies.size()):
-					# TODO: add penalty for typo
-					if ascii_check == enemies[i].ascii_code:
+					if ascii_check == enemies[i].ascii_code: # Input has a valid enemy to kill
 						get_node("player").shoot(enemies[i])
 						enemies[i].mark()
 						enemies.remove(i)
 						killed_enemy = true
 						break
 				if not killed_enemy:
+					# Penalize player for typo by clearing their combo
 					get_node("click").play()
 					combo = 1
 					emit_signal("combo_changed", combo)
@@ -169,10 +178,13 @@ func shake_camera(trauma):
 	get_node("camera").add_trauma(trauma)
 	
 	
+# Shake the camera but can't shake it as much as non clamped (for when multiple enemies die quickly)
 func shake_camera_clamped(trauma):
 	get_node("camera").add_clamped_trauma(trauma)
 
 
+# Activate a bomb
+# TODO: This should be refactored into the player class
 func use_bomb():
 	if bomb_count > 0 and bomb_cooldown <= 0.0 and not game_ending:
 		var bomb_instance = bomb.instance()
@@ -182,12 +194,15 @@ func use_bomb():
 		bomb_cooldown = 5.0
 		emit_signal("bomb_changed", bomb_count)
 	elif bomb_count > 0 and bomb_cooldown > 0.0:
+		# Play a click to notify the player the bomb is still on cooldown
 		get_node("click").play()
 	elif bomb_count <= 0:
+		# Play an error noise to notify the player they are out of bombs
 		get_node("error").play()
 		emit_signal("out_of_bombs")
 		
 
+# Add to the player's score and notify the HUD to update
 func add_score(add_combo):
 	if add_combo:
 		score += 100 * combo * (difficulty + 1)
@@ -198,15 +213,19 @@ func add_score(add_combo):
 	emit_signal("score_changed", score)
 	
 
+# Remove a specific enemy. Called by the enemy class on death to make sure bomb kills properly remove the enemy
 func remove_enemy(enemy):
 	for i in range(0, enemies.size()):
 		if enemies[i] == enemy:
 			enemies.remove(i)
 			break
 
+# Begin the animation for the game over text
 func game_over():
+	# Add a dummy enemy so the last enemy dying while killing the player doesn't display next wave text
 	enemies.append(enemy.instance())
 	get_node("game_over_timer").start()
+	# Stop all current enemies so that they don't continue flying into the center of the screen during the game over
 	for i in range(0, enemies.size()):
 		enemies[i].velocity = 0
 	game_ending = true

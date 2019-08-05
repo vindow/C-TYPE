@@ -11,14 +11,17 @@ func _ready():
 	pass
 
 
+# Update the score text with the given input
 func _on_level_score_changed(score_amount):
 	score.text = "SCORE: " + String(score_amount)
 
 
+# Update the combo text with the given input
 func _on_level_combo_changed(combo_amount):
 	combo.text = String(combo_amount) + "x COMBO"
 
 
+# Update the next wave text and the subtext below
 func _on_level_wave_changed(wave_number, increased_spawn_number):
 	wave_title.text = "Wave " + String(wave_number)
 	if wave_number != 1:
@@ -37,5 +40,6 @@ func _on_level_wave_changed(wave_number, increased_spawn_number):
 		wave_subtitle.text = subtitle
 	get_node("AnimationPlayer").play("next_wave")
 
+# Update the bomb count with the given input
 func _on_level_bomb_changed(bomb_amount):
 	get_node("VBoxContainer/bomb_count").text = "BOMB: " + String(bomb_amount) + "x"

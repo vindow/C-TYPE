@@ -16,8 +16,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	# Turn off the thruster animation when not moving
 	if velocity < 50.0:
 		get_node("sprite/thruster").set_visible(false)
+	# Move towards the player as long as the enemy is not in a dead/dying state
 	if not dying:
 		var pos_difference = get_parent().get_node("player").get_position() - position
 		position += velocity * pos_difference.normalized() * delta
@@ -33,10 +35,12 @@ func mark():
 func set_velocity(v):
 	velocity = v
 	
+	
+# Kills the enemy, but plays the death animation first
 func kill():
 	velocity = 5.0
 	dying = true
-	#get_node("bullet_impact").play()
+	get_node("bullet_impact").play()
 	get_node("death_timer").start()
 	
 	explosion_timer = Timer.new()
@@ -56,6 +60,8 @@ func kill():
 	
 	explosion_timer.start()
 
+
+# Kills the enemy without playing the bullet hit noise (for bomb kills)
 func kill_no_sound():
 	velocity = 5.0
 	dying = true
@@ -66,6 +72,7 @@ func kill_no_sound():
 	explosion_timer.connect("timeout", self, "_on_explosion_timer_timeout")
 	add_child(explosion_timer)
 	
+	# Pick a between the two explosion animations to play
 	if randi() % 2 == 0:
 		get_node("explosion1").rotation = rand_range(0, 2 * PI)
 		get_node("AnimationPlayer").play("explode1_no_sound")
@@ -74,10 +81,12 @@ func kill_no_sound():
 		get_node("explosion2").rotation = rand_range(0, 2 * PI)
 		get_node("AnimationPlayer").play("explode2_no_sound")
 		explosion_timer.set_wait_time(0.38)
-	get_parent().remove_enemy(get_node("."))
 	
+	# Tell the level to remove the enemy from it's array
+	get_parent().remove_enemy(get_node("."))
 	explosion_timer.start()
 
+# Checks collisions strictly with the player (bullet collision is in the bullet script)
 func _on_enemy_area_entered(area):
 	if area.has_method("die"):
 		if not area.dying:
@@ -85,9 +94,11 @@ func _on_enemy_area_entered(area):
 			area.die()
 
 
+# Finally remove itself from the game completely when the animation ends
 func _on_death_timer_timeout():
 	queue_free()
 	
 
+# Sync the screen shake to when the explosion actually happens (a little later than impact)
 func _on_explosion_timer_timeout():
 	get_parent().shake_camera_clamped(0.35)

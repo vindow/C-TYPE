@@ -17,6 +17,7 @@ func _process(delta):
 	rotation = direction - PI / 2
 
 
+# Check collision with the enemy. Only checks for the enemy this bullet is initiated to look for in target_to_kill
 func _on_bullet_area_entered(area):
 	if area == target_to_kill:
 		area.kill()

@@ -466,7 +466,7 @@ stream = ExtResource( 7 )
 volume_db = -5.048
 
 [node name="death_timer" type="Timer" parent="."]
-wait_time = 1.6
+wait_time = 2.0
 one_shot = true
 
 [node name="explosion1" type="Sprite" parent="."]
@@ -504,6 +504,5 @@ energy = 0.7
 [node name="bullet_impact" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = 1.0
-pitch_scale = 0.5
 [connection signal="area_entered" from="." to="." method="_on_enemy_area_entered"]
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
