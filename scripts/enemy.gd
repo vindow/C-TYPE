@@ -75,11 +75,11 @@ func kill_no_sound():
 	# Pick a between the two explosion animations to play
 	if randi() % 2 == 0:
 		get_node("explosion1").rotation = rand_range(0, 2 * PI)
-		get_node("AnimationPlayer").play("explode1_no_sound")
+		get_node("AnimationPlayer").play("explode1")
 		explosion_timer.set_wait_time(0.26)
 	else:
 		get_node("explosion2").rotation = rand_range(0, 2 * PI)
-		get_node("AnimationPlayer").play("explode2_no_sound")
+		get_node("AnimationPlayer").play("explode2")
 		explosion_timer.set_wait_time(0.38)
 	
 	# Tell the level to remove the enemy from it's array

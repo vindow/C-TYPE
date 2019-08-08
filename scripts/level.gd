@@ -158,19 +158,26 @@ func _input(event):
 						ascii_check -= 32
 			# Check if enemy is a valid target for key pressed
 			if (ascii_check <= 126):
-				var killed_enemy = false
+				var closest_enemy_distance = 2000.0
+				var closest_enemy_index = -1
 				for i in range(0, enemies.size()):
-					if ascii_check == enemies[i].ascii_code: # Input has a valid enemy to kill
-						get_node("player").shoot(enemies[i])
-						enemies[i].mark()
-						enemies.remove(i)
-						killed_enemy = true
-						break
-				if not killed_enemy:
+					# Input has a valid enemy to kill
+					if ascii_check == enemies[i].ascii_code: 
+						var distance_to_player = enemies[i].get_position().distance_to(get_node("player").get_position())
+						# Find the closest valid enemy to shoot
+						if distance_to_player < closest_enemy_distance:
+							closest_enemy_distance = distance_to_player
+							closest_enemy_index = i
+				# No valid enemy found for input
+				if closest_enemy_index < 0:
 					# Penalize player for typo by clearing their combo
 					get_node("click").play()
 					combo = 1
 					emit_signal("combo_changed", combo)
+				else:
+					get_node("player").shoot(enemies[closest_enemy_index])
+					enemies[closest_enemy_index].mark()
+					enemies.remove(closest_enemy_index)
 
 
 # Shake the camera with an intensity between 0 (no shake) and 1 (maximum shake)

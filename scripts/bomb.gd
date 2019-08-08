@@ -13,8 +13,8 @@ func _process(delta):
 
 
 func _on_bomb_area_entered(area):
-	if area.has_method("kill"):
-		area.kill()
+	if area.has_method("kill_no_sound"):
+		area.kill_no_sound()
 		get_parent().add_score(false)
 
 
